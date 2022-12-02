@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, TextInput, View } from 'react-native'
 import React, {useEffect, useState} from 'react'
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase'
 import CustomButton from '../components/CustomButton'
 import CustomButton2 from '../components/CustomButton2'
+
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -23,21 +24,8 @@ const LoginScreen = () => {
     return unsubscribe
   }, [])
 
-
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // registered
-      const user = userCredential.user;
-      console.log('Resgistered with:', user.email)
-      //
-    })
-    .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log('Error code:', errorCode)
-    console.log('Error message:', errorMessage)
-    });
+  const handleRegister = () => {
+    navigation.replace("Register")
   }
 
   const handleSignin = () => {
@@ -82,7 +70,7 @@ const LoginScreen = () => {
         name='Login'
         />
         <CustomButton2
-        onPress={handleSignin}
+        onPress={handleRegister}
         name='Register'
         />
       </View>
