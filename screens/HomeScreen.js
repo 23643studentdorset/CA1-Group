@@ -37,7 +37,7 @@ const HomeScreen = () => {
     if (accelerometerCounter === 1000 && id != '')
     {
       setScore(preScore/accelerometerCounter)
-      console.log(Score)
+      console.log(score)
       sendAccelometerData(accelerometerArray, score, id)
       setAccelerometerCounter(0)
       setAccelometerArray([])
@@ -66,6 +66,10 @@ const HomeScreen = () => {
     });
   }
  
+  const goToNavigationScreen = () =>{
+    navigation.navigate("Leaderboard")
+  }
+
   const handlePress = () =>{
     handleData(id, name, course, year, [], score)
   }
@@ -120,8 +124,8 @@ const HomeScreen = () => {
           name='Send data'
         />
         <CustomButton 
-          onPress={navigation.replace("Login")}
-          name= 'Leader board'
+          onPress={goToNavigationScreen}
+          name= 'Leaderboard'
         />
     </View>
   )
