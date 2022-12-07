@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../firebase'
 import { signOut, getAuth} from "firebase/auth";
 import CustomButton from '../components/CustomButton';
-import { doc, setDoc, updateDoc  } from "firebase/firestore"; 
+import { doc, setDoc, updateDoc, collection, getDoc, DocumentSnapshot  } from "firebase/firestore"; 
 import { Accelerometer } from 'expo-sensors';
 
 const HomeScreen = () => {
@@ -15,8 +15,28 @@ const HomeScreen = () => {
   const [score, setScore] = useState()
   const [preScore, setPreScore] = useState(0)
   const navigation = useNavigation()
-  
-  //set initial values
+  const [user, setUser] = useState()
+  const docRef = doc(db, "UsersData", auth.currentUser.uid)
+
+  //Grab and write user info after login
+  useEffect(()=>{
+    const getUser = async () => {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()){
+        console.log(docSnap.data())
+        setId(docSnap.data().studentId)
+        setName(docSnap.data().name)
+        setCourse(docSnap.data().course)
+        setYear(docSnap.data().year)
+        handleData(id, course, year,[], score)
+      } else {
+        console.log("No such document!");
+      }
+    }
+    getUser()
+  }, [id])
+
+  //set initial accelerometer values
   useEffect(()=>{
     setAccelometerArray([])
     setAccelerometerCounter(0)
@@ -34,19 +54,21 @@ const HomeScreen = () => {
     setAccelerometerCounter(accelerometerCounter + 1)
     setAccelometerArray(current => [...current, accelerometerData]);
     setPreScore(preScore + calculateScore())
+    setScore(preScore/accelerometerCounter)
+    
     if (accelerometerCounter === 1000 && id != '')
     {
-      setScore(preScore/accelerometerCounter)
       console.log(score)
       sendAccelometerData(accelerometerArray, score, id)
       setAccelerometerCounter(0)
       setAccelometerArray([])
       setScore(0)
+      setPreScore(0)
     }    
   }, [accelerometerData]);
 
   async function sendAccelometerData(accelerometer_data, score, id){
-    await updateDoc(doc(db, "Firebase", id), {
+    await updateDoc(doc(db, "Firestore", id), {
       accelerometer_data: accelerometer_data,
       score: score
     });
@@ -66,18 +88,13 @@ const HomeScreen = () => {
     });
   }
  
-  const goToNavigationScreen = () =>{
-    navigation.navigate("Leaderboard")
-  }
-
-  const handlePress = () =>{
-    handleData(id, name, course, year, [], score)
+  const goToScreen = (screen) =>{
+    navigation.navigate(screen)
   }
 
   //send info to firebase
-  async function handleData(id, name, course, year, accelerometer_data, score) {
-    await setDoc(doc(db, "Firebase", id), {
-      name: name, 
+  async function handleData(id, course, year, accelerometer_data, score) {
+    await setDoc(doc(db, "Firestore", id), {
       course: course, 
       year: Number(year),
       accelerometer_data: accelerometer_data, 
@@ -90,42 +107,23 @@ const HomeScreen = () => {
           <Text style={styles.text}>counter: {accelerometerCounter}</Text>
           <Text style={styles.text}></Text>
           <View style={styles.buttonContainer}>        
-        </View>
-        <TextInput
-          placeholder="Name"
-          value= {name}
-          onChangeText={text => setName(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="course"
-          value= {course}
-          onChangeText={text => setCourse(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Year"
-          value= {year}
-          onChangeText={text => setYear(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="student ID"
-          value= {id}
-          onChangeText={text => setId(text)}
-          style={styles.input}
-        />
+          </View>
+        
         <CustomButton
           onPress={handleSignOut}
           name='Sign out'
           />
         <CustomButton
-          onPress={handlePress}
+          onPress={()=>{handleData(id, course, year, [], score)}}
           name='Send data'
         />
         <CustomButton 
-          onPress={goToNavigationScreen}
+          onPress={()=>{goToScreen("Leaderboard")}}
           name= 'Leaderboard'
+        />
+         <CustomButton 
+          onPress={()=>{goToScreen("UserInfo")}}
+          name= 'User info'
         />
     </View>
   )
@@ -139,19 +137,6 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: 'center',
     alignItems:'center',
-  },
-  button:{
-    backgroundColor:'#0782F9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop:40,
-  },
-  buttonText:{
-    color:'white',
-    fontWeight: '700',
-    fontSize: 16,
   },
   input:{
     backgroundColor: 'white',

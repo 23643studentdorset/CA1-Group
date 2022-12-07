@@ -1,24 +1,28 @@
-import { StyleSheet, TextInput, View, Text, FlatList, Pressable } from 'react-native'
+import { View, Text } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { doc, getDocs, getDoc, collection } from 'firebase/firestore';
-import { auth, db } from '../firebase'
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase'
 
 
 
 
 
 const LeaderboardScreen = () => {
-  const [data, setData] = useState()
+  const [users, setUsers] = useState([])
+  const usersCollectionRef = collection(db, "Firestore")
+  useEffect(()=>{
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      setUsers(data.docs.map((doc)=> ({...doc.data(), id: doc.id})))
+      console.log(users)
+    }
+    getUsers()
+  }, [users])
   
-  const docRef = doc(db, "Firestore", "311");
-  const docSnap = async () => {
-    await getDoc(docRef);
-  }
-  console.log("Document data:", docSnap);
 
   return(
     <View>
-        
+        <Text></Text>
           
     </View>
   )
