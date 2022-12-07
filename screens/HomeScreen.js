@@ -15,7 +15,6 @@ const HomeScreen = () => {
   const [score, setScore] = useState()
   const [preScore, setPreScore] = useState(0)
   const navigation = useNavigation()
-  const [user, setUser] = useState()
   const docRef = doc(db, "UsersData", auth.currentUser.uid)
 
   //Grab and write user info after login
@@ -28,13 +27,12 @@ const HomeScreen = () => {
         setName(docSnap.data().name)
         setCourse(docSnap.data().course)
         setYear(docSnap.data().year)
-        handleData(id, course, year,[], score)
       } else {
         console.log("No such document!");
       }
     }
     getUser()
-  }, [id])
+  }, [id, year, name, course])
 
   //set initial accelerometer values
   useEffect(()=>{
@@ -59,7 +57,7 @@ const HomeScreen = () => {
     if (accelerometerCounter === 1000 && id != '')
     {
       console.log(score)
-      sendAccelometerData(accelerometerArray, score, id)
+      sendAccelometerData(id, name, course, year, accelerometerArray, score)
       setAccelerometerCounter(0)
       setAccelometerArray([])
       setScore(0)
@@ -67,10 +65,13 @@ const HomeScreen = () => {
     }    
   }, [accelerometerData]);
 
-  async function sendAccelometerData(accelerometer_data, score, id){
-    await updateDoc(doc(db, "Firestore", id), {
-      accelerometer_data: accelerometer_data,
-      score: score
+  async function sendAccelometerData(id, name, course, year, accelerometer_data, score){
+    await setDoc(doc(db, "Firestore", id), {
+      name: name,
+      course: course, 
+      year: Number(year),
+      accelerometer_data: accelerometer_data, 
+      score: Number(score),
     });
   }
 
@@ -92,31 +93,18 @@ const HomeScreen = () => {
     navigation.navigate(screen)
   }
 
-  //send info to firebase
-  async function handleData(id, course, year, accelerometer_data, score) {
-    await setDoc(doc(db, "Firestore", id), {
-      course: course, 
-      year: Number(year),
-      accelerometer_data: accelerometer_data, 
-      score: Number(score),
-    });
-  }
-  
   return (
         <View style={styles.container}>
-          <Text style={styles.text}>counter: {accelerometerCounter}</Text>
-          <Text style={styles.text}></Text>
-          <View style={styles.buttonContainer}>        
-          </View>
-        
+          <Text style={styles.textHeading}>Welcome! {name}</Text>
+          <Text style={styles.text}>Counter: <Text style={styles.text2}>{accelerometerCounter}</Text></Text>
+          <Text style={styles.text}>Student id: <Text style={styles.text2}>{id}</Text></Text>
+          <Text style={styles.text}>Course: <Text style={styles.text2}>{course}</Text></Text>
+          <Text style={styles.text}>Year: <Text style={styles.text2}>{year}</Text></Text>
+          
         <CustomButton
           onPress={handleSignOut}
           name='Sign out'
           />
-        <CustomButton
-          onPress={()=>{handleData(id, course, year, [], score)}}
-          name='Send data'
-        />
         <CustomButton 
           onPress={()=>{goToScreen("Leaderboard")}}
           name= 'Leaderboard'
@@ -131,7 +119,6 @@ const HomeScreen = () => {
 
 
 export default HomeScreen
-
 const styles = StyleSheet.create({
   container:{
     flex:1,
@@ -145,5 +132,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 5,
     width: '80%',
+  },
+  text:{
+    fontSize: 16,
+    color:'#0782F9',
+    paddingBottom:3,
+    fontWeight: "800"
+  },
+  text2:{
+    fontSize: 16,
+    color:'#000',
+    paddingBottom:3,
+    fontWeight: "800"
+  },
+  textHeading:{
+    fontSize: 33,
+    color:'#0782F9',
+    paddingBottom:10,
+    fontWeight: "800"
   },
 })

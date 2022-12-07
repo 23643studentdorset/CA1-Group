@@ -78,7 +78,7 @@ const UserInfoScreen = () => {
             />
             <TextInput
                 placeholder="student ID"
-                value= {id}
+                value={id}
                 onChangeText={text => setId(text)}
                 style={styles.input}
             />
