@@ -8,7 +8,7 @@ import { getFirestore } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-
+/*
 const firebaseConfig = {
   apiKey: "AIzaSyArE-Ps3lUoXkW7haKmKjjFuPQLcEjpqpM",
   authDomain: "ca1-group-2472e.firebaseapp.com",
@@ -18,7 +18,7 @@ const firebaseConfig = {
   appId: "1:606756605796:web:7f72dfc06955ec2cf03471"
 };
 
-/*
+*/
 const firebaseConfig = {
   apiKey: "AIzaSyDipMCkWcdc38Q6HTLrxjA4Xbpwc0l5nWs",
   authDomain: "dorset-mobile-app-2.firebaseapp.com",
@@ -27,7 +27,7 @@ const firebaseConfig = {
   messagingSenderId: "1028647483140",
   appId: "1:1028647483140:web:c122fff6b267bab3bf0251"
 };
-*/
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

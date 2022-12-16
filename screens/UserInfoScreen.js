@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../firebase'
 import CustomButton from '../components/CustomButton';
-import { doc, setDoc, deleteDoc, getDoc} from "firebase/firestore"; 
+import { doc, setDoc, deleteDoc, getDoc, updateDoc} from "firebase/firestore"; 
 import { StyleSheet, TextInput, View, Text } from 'react-native'
 
 
@@ -14,7 +14,7 @@ const UserInfoScreen = () => {
     const [userId, setUserId] = useState()
     const [oldUserIdFirestore, setOldUserIdFirestore] = useState()
     const navigation = useNavigation()
-    const docRef = doc(db, "UsersData", auth.currentUser.uid)
+    const docRef = doc(db, "Users", auth.currentUser.uid)
     
     useEffect (()=>{
         setUserId(auth.currentUser.uid)
@@ -35,14 +35,14 @@ const UserInfoScreen = () => {
       }, [])
 
     const pressHandler = () =>{
-        deleteUser(oldUserIdFirestore)
-        handleData(id, name, course, year)        
+        //deleteUser(oldUserIdFirestore)
+        handleData("23643", name, course, year)        
     }
 
 
     //send info to firebase
     async function handleData(studentId, name, course, year) {
-        await setDoc(doc(db, "UsersData", userId), {
+        await setDoc(doc(db, "Users", studentId), {
         name: name, 
         course: course, 
         year: Number(year),

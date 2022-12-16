@@ -15,7 +15,7 @@ const HomeScreen = () => {
   //const [score, setScore] = useState()
   //const [preScore, setPreScore] = useState(0)
   const navigation = useNavigation()
-  const docRef = doc(db, "UsersData", auth.currentUser.uid)
+  const docRef = doc(db, "Users", "23643")
   
   //Grab and write user info after login
   useEffect(()=>{
@@ -32,7 +32,7 @@ const HomeScreen = () => {
       }
     }
     getUser()
-  }, [id, year, name, course])
+  }, [name, course, year, id ])
 
   //set initial accelerometer values
   useEffect(()=>{
