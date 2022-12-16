@@ -51,7 +51,7 @@ const UserInfoScreen = () => {
     }
 
     const deleteUser = async (idToDelete) => {
-        const userDoc = doc(db,"Firestore", idToDelete)
+        const userDoc = doc(db,"Users", idToDelete)
         await deleteDoc(userDoc)
     }
     

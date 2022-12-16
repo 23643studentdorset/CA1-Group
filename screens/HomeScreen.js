@@ -12,11 +12,11 @@ const HomeScreen = () => {
   const [course, setCourse] = useState('')
   const [year, setYear] = useState()
   const [id, setId] = useState('')
-  const [score, setScore] = useState()
-  const [preScore, setPreScore] = useState(0)
+  //const [score, setScore] = useState()
+  //const [preScore, setPreScore] = useState(0)
   const navigation = useNavigation()
   const docRef = doc(db, "UsersData", auth.currentUser.uid)
-
+  
   //Grab and write user info after login
   useEffect(()=>{
     const getUser = async () => {
@@ -36,11 +36,12 @@ const HomeScreen = () => {
 
   //set initial accelerometer values
   useEffect(()=>{
-    setAccelometerArray([])
-    setAccelerometerCounter(0)
-    setScore(0)
+    //setAccelometerArray([])
+    //setAccelerometerCounter(0)
+    //setScore(0)
     Accelerometer.addListener(setAccelerometerData);
     Accelerometer.setUpdateInterval(200)
+    
   }, [])
 
   //Accelerometer
@@ -51,34 +52,34 @@ const HomeScreen = () => {
   useEffect(()=>{
     setAccelerometerCounter(accelerometerCounter + 1)
     setAccelometerArray(current => [...current, accelerometerData]);
-    setPreScore(preScore + calculateScore())
-    setScore(preScore/accelerometerCounter)
+    //setPreScore(preScore + calculateScore())
+    //setScore(preScore/accelerometerCounter)
     
     if (accelerometerCounter === 1000 && id != '')
     {
-      console.log(score)
-      sendAccelometerData(id, name, course, year, accelerometerArray, score)
+      //console.log(score)
+      sendAccelometerData(id, name, course, year, accelerometerArray, 0)
       setAccelerometerCounter(0)
       setAccelometerArray([])
-      setScore(0)
-      setPreScore(0)
+      //setScore(0)
+      //setPreScore(0)
     }    
   }, [accelerometerData]);
 
   async function sendAccelometerData(id, name, course, year, accelerometer_data, score){
-    await setDoc(doc(db, "Firestore", id), {
+    await setDoc(doc(db, "Users", id), {
       name: name,
       course: course, 
       year: Number(year),
       accelerometer_data: accelerometer_data, 
-      score: Number(score),
+      //score: Number(score),
     });
   }
 
-  //score calculation
-  function calculateScore(){
-    return Math.abs(accelerometerData.x) + Math.abs(accelerometerData.y) + Math.abs(accelerometerData.z)
-  }
+  // //score calculation
+  // function calculateScore(){
+  //   return Math.abs(accelerometerData.x) + Math.abs(accelerometerData.y) + Math.abs(accelerometerData.z)
+  // }
 
   //button handlers
   const handleSignOut = () => {
