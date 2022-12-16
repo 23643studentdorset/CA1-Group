@@ -38,7 +38,7 @@ let i = 0
         score = score/1000
         setSingleScore(score)
         //console.log("score:" + score)
-        console.log(users[i])
+        //console.log(users[i])
         users[i].score = score
         scores.push(score);
         i++  
@@ -48,8 +48,8 @@ let i = 0
           i++  
         }          
       });
-        console.log("scores " + scores)
-        //sortUsersByScore()  
+        //console.log("scores " + scores)
+        sortUsersByScore(users)  
         //console.log(users)
         //sendScores()
         
@@ -59,9 +59,9 @@ let i = 0
     //putScoresInUsers()
   }, [])
 
-  function sortUsersByScore(){
+  function sortUsersByScore(users){
     users.sort((a, b) => {
-      return b.age - a.age;
+      return b.score - a.score;
   });
   
     //console.log("users:" + users) 
