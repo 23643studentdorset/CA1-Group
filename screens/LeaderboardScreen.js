@@ -4,10 +4,10 @@ import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase'
 
 const LeaderboardScreen = () => {
-const [scores, setScores] = useState([])
-const [leaderboardData, setLearderboarData] = useState([])
-const [singleScore, setSingleScore] = useState(0)
-let i = 0
+  const [scores, setScores] = useState([])
+  const [leaderboardData, setLearderboarData] = useState([])
+  const [singleScore, setSingleScore] = useState(0)
+  let i = 0
 
   //grab users from firestore
   const [users, setUsers] = useState([])
