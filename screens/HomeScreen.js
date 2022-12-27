@@ -12,8 +12,8 @@ const HomeScreen = () => {
   const [course, setCourse] = useState('')
   const [year, setYear] = useState()
   const [id, setId] = useState('')
-  //const [score, setScore] = useState()
-  //const [preScore, setPreScore] = useState(0)
+  const [score, setScore] = useState()
+  const [preScore, setPreScore] = useState(0)
   const navigation = useNavigation()
   const docRef = doc(db, "Users", "23643")
   
@@ -36,9 +36,9 @@ const HomeScreen = () => {
 
   //set initial accelerometer values
   useEffect(()=>{
-    //setAccelometerArray([])
-    //setAccelerometerCounter(0)
-    //setScore(0)
+    setAccelometerArray([])
+    setAccelerometerCounter(0)
+    setScore(0)
     Accelerometer.addListener(setAccelerometerData);
     Accelerometer.setUpdateInterval(200)
     
@@ -52,8 +52,8 @@ const HomeScreen = () => {
   useEffect(()=>{
     setAccelerometerCounter(accelerometerCounter + 1)
     setAccelometerArray(current => [...current, accelerometerData]);
-    //setPreScore(preScore + calculateScore())
-    //setScore(preScore/accelerometerCounter)
+    setPreScore(preScore + calculateScore())
+    setScore(preScore/accelerometerCounter)
     
     if (accelerometerCounter === 1000 && id != '')
     {
@@ -61,8 +61,8 @@ const HomeScreen = () => {
       sendAccelometerData(id, name, course, year, accelerometerArray, 0)
       setAccelerometerCounter(0)
       setAccelometerArray([])
-      //setScore(0)
-      //setPreScore(0)
+      setScore(0)
+      setPreScore(0)
     }    
   }, [accelerometerData]);
 
@@ -77,9 +77,9 @@ const HomeScreen = () => {
   }
 
   // //score calculation
-  // function calculateScore(){
-  //   return Math.abs(accelerometerData.x) + Math.abs(accelerometerData.y) + Math.abs(accelerometerData.z)
-  // }
+   function calculateScore(){
+     return Math.abs(accelerometerData.x) + Math.abs(accelerometerData.y) + Math.abs(accelerometerData.z)
+   }
 
   //button handlers
   const handleSignOut = () => {
