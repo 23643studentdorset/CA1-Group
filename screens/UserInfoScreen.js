@@ -46,7 +46,7 @@ const UserInfoScreen = () => {
         name: name, 
         course: course, 
         year: Number(year),
-        studentId: studentId
+        //studentId: studentId
         });
     }
 
@@ -74,12 +74,6 @@ const UserInfoScreen = () => {
                 placeholder="Year"
                 value= {year}
                 onChangeText={text => setYear(text)}
-                style={styles.input}
-            />
-            <TextInput
-                placeholder="student ID"
-                value={id}
-                onChangeText={text => setId(text)}
                 style={styles.input}
             />
             <CustomButton

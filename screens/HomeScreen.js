@@ -23,7 +23,7 @@ const HomeScreen = () => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()){
         console.log(docSnap.data())
-        setId(docSnap.data().studentId)
+        setId("23643")
         setName(docSnap.data().name)
         setCourse(docSnap.data().course)
         setYear(docSnap.data().year)
@@ -55,7 +55,7 @@ const HomeScreen = () => {
     setPreScore(preScore + calculateScore())
     setScore(preScore/accelerometerCounter)
     
-    if (accelerometerCounter === 1000 && id != '')
+    if (accelerometerCounter === 1000 && id != '' && accelerometerArray.length === 1000)
     {
       //console.log(score)
       sendAccelometerData(id, name, course, year, accelerometerArray, 0)
