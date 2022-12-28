@@ -16,3 +16,7 @@ The requirements are as follows and both requirements carry equal weightage:
     - [x] Show recycler view to display leaderboard with columns rank, name and score (use score for ranking)
     - [ ] Refresh every minute, show information: last refreshed (in time ago format), and refreshing in x seconds
     - [x] Show details of user when clicked in full screen, allow going back to leaderboard
+
+---
+
+Release [link](https://github.com/23643studentdorset/CA1-Group/releases/tag/v1.0.0)
