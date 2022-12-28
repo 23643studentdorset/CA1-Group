@@ -1,7 +1,9 @@
+
 The objective of this project is to develop a cloud connected mobile app to collect and upload accelerometer data and display a leaderboard. 
 The requirements are as follows and both requirements carry equal weightage:
 
 ---
+
 - Authenticate using Firebase1, upload data to Firestore
     - [x] Sign up using StudentID@student.dorset-college.ie (as email) and a password
     - [x] After sign up, collect and update details such as name, course, year in Firestore > StudentID, allow editing these details later
