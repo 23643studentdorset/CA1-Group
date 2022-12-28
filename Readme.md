@@ -13,4 +13,4 @@ The requirements are as follows and both requirements carry equal weightage:
     - [x] If accelerometer_data is unavailable or not in correct format or has more than 1000 data points, show score "N/A".
     - [x] Show recycler view to display leaderboard with columns rank, name and score (use score for ranking)
     - [ ] Refresh every minute, show information: last refreshed (in time ago format), and refreshing in x seconds
-    - [ ] Show details of user when clicked in full screen, allow going back to leaderboard
+    - [x] Show details of user when clicked in full screen, allow going back to leaderboard
