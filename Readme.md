@@ -25,6 +25,7 @@ The requirements are as follows and both requirements carry equal weightage:
 ---
 
 Release [link](https://github.com/23643studentdorset/CA1-Group/releases/tag/v1.0.2)
+
 Video [link](https://youtu.be/L2_1wloWN8g)
 
 ---
